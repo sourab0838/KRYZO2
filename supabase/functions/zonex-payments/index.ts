@@ -146,7 +146,7 @@ async function createCashfreePaymentSession(
     },
     order_meta: {
       return_url: `${supabaseUrl}/functions/v1/zonex-payments/return?order_id=${orderId}`,
-      payment_methods: "cc,dc,upi,nb,wallet",
+      payment_methods: "cc,dc,upi,nb,app,paylater",
     },
     order_note: `Zonex Payment - ${orderId}`,
   };
@@ -276,13 +276,12 @@ Deno.serve(async (req: Request) => {
         return errorResponse("Payment gateway not configured. Please add Cashfree API credentials in Admin > Payment Settings.");
       }
 
-      // Detect placeholder/invalid credentials
+      // Detect placeholder/invalid credentials (only check for known placeholder values)
       const isPlaceholder =
         settings.api_key.length < 20 ||
         settings.api_secret.length < 20 ||
         settings.api_key === "CF_TEST_KEY" ||
-        settings.api_secret === "CF_TEST_SECRET" ||
-        !settings.api_key.startsWith("CF_TEST_") && !settings.api_key.startsWith("CF_LIVE_");
+        settings.api_secret === "CF_TEST_SECRET";
 
       if (isPlaceholder) {
         return errorResponse(
@@ -362,7 +361,7 @@ Deno.serve(async (req: Request) => {
         return errorResponse("Payment gateway not configured. Please add Cashfree API credentials in Admin > Payment Settings.");
       }
 
-      // Detect placeholder/invalid credentials
+      // Detect placeholder/invalid credentials (only check for known placeholder values)
       const isPlaceholder =
         settings.api_key.length < 20 ||
         settings.api_secret.length < 20 ||
@@ -462,7 +461,7 @@ Deno.serve(async (req: Request) => {
         return errorResponse("Payment gateway not configured. Please add Cashfree API credentials in Admin > Payment Settings.");
       }
 
-      // Detect placeholder/invalid credentials
+      // Detect placeholder/invalid credentials (only check for known placeholder values)
       const isPlaceholder =
         settings.api_key.length < 20 ||
         settings.api_secret.length < 20 ||
@@ -587,7 +586,7 @@ Deno.serve(async (req: Request) => {
         return errorResponse("Payment gateway not configured. Please add Cashfree API credentials in Admin > Payment Settings.");
       }
 
-      // Detect placeholder/invalid credentials
+      // Detect placeholder/invalid credentials (only check for known placeholder values)
       const isPlaceholder =
         settings.api_key.length < 20 ||
         settings.api_secret.length < 20 ||
